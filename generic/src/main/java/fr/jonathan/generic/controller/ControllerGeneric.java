@@ -16,9 +16,8 @@ public abstract class ControllerGeneric<D extends DtoGeneric> {
     public D findById(@PathVariable Long id) {
         return serviceGeneric.findById(id).orElseThrow(() -> new RuntimeException("Entity not found with id: " + id));
     }
-    @PutMapping(value = "/{id}")
-    public D update(@PathVariable Long id, @RequestBody D dto) {
-        dto.setId(id);
+    @PutMapping()
+    public D update(@RequestBody D dto) {
         return serviceGeneric.update(dto);
     }
     @DeleteMapping(value = "/{id}")

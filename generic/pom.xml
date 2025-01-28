@@ -30,6 +30,14 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+		<!-- JUnit -->
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.11.4</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
@@ -106,6 +114,15 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M7</version> <!-- Vérifiez la dernière version -->
+				<configuration>
+					<forkCount>1</forkCount>
+					<reuseForks>true</reuseForks>
 				</configuration>
 			</plugin>
 		</plugins>
