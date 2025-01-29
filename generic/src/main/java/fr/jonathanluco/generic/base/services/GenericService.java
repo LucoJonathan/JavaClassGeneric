@@ -5,11 +5,13 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
-public interface GenericService<D, I> {
+public interface GenericService<D, Long> {
 
     Page<D> findAll(Pageable pageable); // gestion de pagination
-    Optional<D> findById(I id);
-    D saveOrUpdate(D entity);
-    void deleteById(I id);
+    Optional<D> findById(Long id);
+    D saveOrUpdate(D dto);
+    void deleteById(Long id);
     Optional<D> partialUpdate(D dto);
+    D save(D dto);
+    D update(D dto);
 }

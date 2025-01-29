@@ -1,6 +1,7 @@
 package fr.jonathanluco.generic.base.services;
 
-import fr.jonathanluco.generic.base.GenericId;
+import fr.jonathanluco.generic.base.dto.BaseDto;
+import fr.jonathanluco.generic.base.entity.BaseEntity;
 import fr.jonathanluco.generic.base.mapper.GenericMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,15 +12,13 @@ import java.util.Optional;
 
 @AllArgsConstructor
 public class GenericServiceImpl<
-        I,
-        D extends GenericId<I>,
-        E extends GenericId<I>,
-        R extends JpaRepository<E,I>,
-        M extends GenericMapper<D,E>
-        > implements GenericService<D,I>{
+        D extends BaseDto,
+        E extends BaseEntity,
+        R extends JpaRepository<E, Long>,
+        M extends GenericMapper<D, E>
+        > implements GenericService<D, Long> {
     protected R repository;
     protected M mapper;
-
 
     @Override
     public Page<D> findAll(Pageable pageable) {
@@ -27,17 +26,17 @@ public class GenericServiceImpl<
     }
 
     @Override
-    public Optional<D> findById(I id) {
+    public Optional<D> findById(Long id) {
         return repository.findById(id).map(mapper::toDto);
     }
 
     @Override
     public D saveOrUpdate(D dto) {
-        return mapper.toDto(repository.save(mapper.toEntity(dto)));
+        return mapper.toDto(repository.saveAndFlush(mapper.toEntity(dto)));
     }
 
     @Override
-    public void deleteById(I id) {
+    public void deleteById(Long id) {
         repository.deleteById(id);
     }
 
@@ -45,5 +44,15 @@ public class GenericServiceImpl<
     public Optional<D> partialUpdate(D dto) {
         return repository.findById(dto.getId())
                 .map(e -> mapper.toDto(repository.save(mapper.partialUpdate(dto, e))));
+    }
+
+    @Override
+    public D save(D dto) {
+        return mapper.toDto(repository.save(mapper.toEntity(dto)));
+    }
+
+    @Override
+    public D update(D dto) {
+        return mapper.toDto(repository.saveAndFlush(mapper.toEntity(dto)));
     }
 }

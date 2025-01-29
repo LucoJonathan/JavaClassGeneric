@@ -1,13 +1,13 @@
 package fr.jonathanluco.generic.base.dto;
 
-import fr.jonathanluco.generic.base.GenericId;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 @Data
 @Accessors(chain = true)
-public class BaseDto implements GenericId<Long>
-    {
-    private Long id;
+public class BaseDto implements Serializable {
+    private long id;
     private int version;
 }
